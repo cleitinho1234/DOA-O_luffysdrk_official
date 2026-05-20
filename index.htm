@@ -210,6 +210,14 @@
             border: 1px solid #f43f5e;
         }
 
+        /* Player customizado integrado discretamente nas mensagens */
+        .admin-audio-player {
+            margin-top: 8px;
+            width: 100%;
+            height: 32px;
+            outline: none;
+        }
+
         /* ================= ESTILIZAÇÃO DOS ALERTAS DA TELA ================= */
         .luffy-alert-overlay {
             position: fixed;
@@ -241,12 +249,10 @@
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Sombra verde para o positivo */
         #luffyAlertPositivo .luffy-img {
             box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
         }
 
-        /* Sombra vermelha para o negativo */
         #luffyAlertNegativo .luffy-img {
             box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
         }
@@ -406,7 +412,6 @@
         }
     });
 
-    // SISTEMA DE ESCUTA DOS CLIQUES DE SELEÇÃO (RADIOS)
     document.querySelectorAll('input[name="vibe_mensagem"]').forEach(radio => {
         radio.addEventListener('change', function() {
             if (this.value === 'positiva') {
@@ -417,7 +422,6 @@
         });
     });
 
-    // FUNÇÃO QUE EXECUTA A ANIMAÇÃO E O SUMIÇO SIMULTÂNEO
     function mostrarAlerta(tipo) {
         if (tipo === 'positiva') {
             luffyAlertPositivo.classList.add('show');
@@ -480,7 +484,7 @@
         }
     }
 
-    function activarBotaoCooldown(tempoMs) {
+    function ativarBotaoCooldown(tempoMs) {
         submitBtn.disabled = true;
         cooldownTimer.style.display = 'block';
 
@@ -495,17 +499,18 @@
                 cooldownTimer.style.display = 'none';
                 localStorage.removeItem('cooldown_doacao');
             } else {
-                const minutos = Math.floor(restante / 60000);
-                const segundos = Math.floor((restante % 60000) / 1000);
+                const minutes = Math.floor(restante / 60000);
+                const seconds = Math.floor((restante % 60000) / 1000);
                 
-                const minStr = minutos < 10 ? '0' + minutos : minutes;
-                const segStr = segundos < 10 ? '0' + segundos : segundos;
+                const minStr = minutes < 10 ? '0' + minutes : minutes;
+                const segStr = seconds < 10 ? '0' + seconds : seconds;
                 
                 cooldownTimer.textContent = `⏳ Aguarde ${minStr}:${segStr} para enviar outra interação.`;
             }
         }, 1000);
     }
 
+    // FORMULÁRIO COM SISTEMA DE CONVERSÃO DE ÁUDIO PARA BASE64
     document.getElementById('donationForm').addEventListener('submit', function(e) {
         e.preventDefault();
         if (submitBtn.disabled) return;
@@ -513,7 +518,6 @@
         const usuario = localStorage.getItem('usuario_doacao');
         const vibe = document.querySelector('input[name="vibe_mensagem"]:checked').value;
 
-        // Disparar o alerta visual correspondente também na hora do envio
         mostrarAlerta(vibe);
         
         if (usuario.trim().toLowerCase() !== 'luffysdrk dono') {
@@ -525,32 +529,51 @@
         const mensagem = document.getElementById('texto_mensagem').value.trim();
         const musica = document.getElementById('link_musica').value.trim();
         const ideia = document.getElementById('ideia_conteudo').value.trim();
-        
         const audioFile = document.getElementById('audio_file').files[0];
-        const audioName = audioFile ? audioFile.name : "Nenhum áudio enviado";
 
-        const novaDoacao = {
-            id: Date.now(),
-            usuario: usuario,
-            vibe: vibe,
-            mensagem: mensagem,
-            musica: musica,
-            audio: audioName,
-            ideia: ideia,
-            data: new Date().toLocaleTimeString('pt-BR')
-        };
+        // Se houver arquivo de áudio, processamos o arquivo antes de salvar
+        if (audioFile) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const base64Audio = event.target.result; // O arquivo virou string aqui
+                salvarDoacao(usuario, vibe, mensagem, musica, ideia, base64Audio, audioFile.name);
+            };
+            reader.readAsDataURL(audioFile);
+        } else {
+            salvarDoacao(usuario, vibe, mensagem, musica, ideia, null, "Nenhum áudio enviado");
+        }
 
-        const doacoesAtuais = JSON.parse(localStorage.getItem('banco_doacoes'));
-        doacoesAtuais.unshift(novaDoacao);
-        localStorage.setItem('banco_doacoes', JSON.stringify(doacoesAtuais));
-
-        alert('Sua doação/mensagem foi enviada com sucesso para o painel!');
         this.reset();
 
         if (usuario.trim().toLowerCase() !== 'luffysdrk dono') {
             ativarBotaoCooldown(3 * 60 * 1000);
         }
     });
+
+    function salvarDoacao(usuario, vibe, mensagem, musica, ideia, audioData, audioName) {
+        const novaDoacao = {
+            id: Date.now(),
+            usuario: usuario,
+            vibe: vibe,
+            mensagem: mensagem,
+            musica: musica,
+            audioName: audioName,
+            audioSrc: audioData, // Guardamos os dados brutos da música para tocar no painel
+            ideia: ideia,
+            data: new Date().toLocaleTimeString('pt-BR')
+        };
+
+        const doacoesAtuais = JSON.parse(localStorage.getItem('banco_doacoes'));
+        doacoesAtuais.unshift(novaDoacao);
+        
+        try {
+            localStorage.setItem('banco_doacoes', JSON.stringify(doacoesAtuais));
+            alert('Sua doação/mensagem foi enviada com sucesso para o painel!');
+        } catch (error) {
+            // Se o áudio for absurdamente gigantesco e estourar a memória local
+            alert('Erro: O arquivo de áudio é grande demais para salvar localmente. Tente usar um arquivo menor.');
+        }
+    }
 
     function abrirPainel() {
         mainContent.style.display = 'none';
@@ -574,6 +597,17 @@
 
         lista.innerHTML = '';
         doacoes.forEach(doc => {
+            // Gerando a tag de áudio dinâmica caso o usuário tenha enviado uma música
+            let playerAudioHTML = '';
+            if (doc.audioSrc) {
+                playerAudioHTML = `
+                    <p><strong>🎙️ Arquivo de Áudio recebido:</strong> ${doc.audioName}</p>
+                    <audio controls class="admin-audio-player" src="${doc.audioSrc}"></audio>
+                `;
+            } else if (doc.audioName && doc.audioName !== "Nenhum áudio enviado") {
+                playerAudioHTML = `<p><strong>🎙️ Arquivo de Áudio:</strong> ${doc.audioName}</p>`;
+            }
+
             lista.innerHTML += `
                 <div class="msg-box ${doc.vibe}">
                     <div class="msg-header">
@@ -583,7 +617,7 @@
                     <div class="msg-body">
                         ${doc.mensagem ? `<p><strong>Mensagem (${doc.vibe}):</strong> ${doc.mensagem}</p>` : ''}
                         ${doc.musica ? `<p><strong>🎵 Música:</strong> <a href="${doc.musica}" target="_blank" style="color:#38bdf8;">${doc.musica}</a></p>` : ''}
-                        ${doc.audio !== "Nenhum áudio enviado" ? `<p><strong>🎙️ Arquivo de Áudio:</strong> ${doc.audio}</p>` : ''}
+                        ${playerAudioHTML}
                         ${doc.ideia ? `<p><strong>💡 Ideia de Conteúdo:</strong> ${doc.ideia}</p>` : ''}
                     </div>
                 </div>
