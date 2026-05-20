@@ -3,145 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUFFYSDRK - Shorts Oficiais</title>
+    <title>Envie seu Apoio e Ideias</title>
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            text-align: center; 
-            background: #0f0f0f; 
-            color: #ffffff;
+        * {
             margin: 0;
-            padding: 20px;
-        }
-        .container { 
-            max-width: 1100px; 
-            margin: 0 auto; 
-            padding: 10px; 
-        }
-        h1 { font-size: 2.3rem; margin-bottom: 5px; color: #ff0000; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        p { color: #aaaaaa; margin-bottom: 40px; font-size: 1.1rem; }
-        
-        .grid-shorts {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 30px;
-            justify-content: center;
-        }
-        
-        .short-card {
-            background: #1f1f1f;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-            padding: 12px;
-            transition: transform 0.2s;
-        }
-        .short-card:hover {
-            transform: scale(1.02);
-        }
-        .video-container {
-            position: relative;
-            padding-bottom: 177.77%; 
-            height: 0;
-            overflow: hidden;
-            border-radius: 12px;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%; border: none;
-        }
-        .video-title {
-            font-size: 0.95rem;
-            font-weight: bold;
-            margin: 12px 5px;
-            text-align: left;
-            color: #f1f1f1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .botoes-interacao {
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .btn-interagir {
-            flex: 1;
-            background: #333333;
-            color: #ffffff;
-            border: none;
-            padding: 8px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
             justify-content: center;
-            gap: 5px;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #1e293b;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #38bdf8;
+            font-size: 1.8rem;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .section-card {
+            background-color: #334155;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #475569;
+        }
+
+        .section-card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-donate {
+            display: block;
+            width: 100%;
+            background-color: #22c55e;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
             transition: background 0.2s;
         }
-        .btn-interagir:hover {
-            background: #ff0000;
+
+        .btn-donate:hover {
+            background-color: #16a34a;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            background-color: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            color: white;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        input[type="text"]:focus, textarea:focus, select:focus {
+            border-color: #38bdf8;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .audio-input-container {
+            border: 2px dashed #475569;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            background-color: #1e293b;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: #38bdf8;
+            color: #0f172a;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #0ea5e9;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>LUFFYSDRK</h1>
-        <p>Assista e interaja com os meus Shorts de Blox Fruits!</p>
-        
-        <div class="grid-shorts">
-            
-            <div class="short-card">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/WVrAsGbSoOE" allowfullscreen></iframe>
-                </div>
-                <div class="video-title">SUA PROXIMA FRUTA NO GIRO SERÁ !!</div>
-                <div class="botoes-interacao">
-                    <a href="https://www.youtube.com/shorts/WVrAsGbSoOE" target="_blank" class="btn-interagir">❤️ Curtir</a>
-                    <a href="https://www.youtube.com/shorts/WVrAsGbSoOE" target="_blank" class="btn-interagir">💬 Comentar</a>
-                </div>
-            </div>
+<div class="container">
+    <h1>Mande sua Energia & Conteúdo</h1>
+    <p class="subtitle">Escolha como você quer interagir ou apoiar o canal abaixo!</p>
 
-            <div class="short-card">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/AAKk8CXZM40" allowfullscreen></iframe>
-                </div>
-                <div class="video-title">QUAL SERÁ SUA FRUTA? #bloxfurit</div>
-                <div class="botoes-interacao">
-                    <a href="https://www.youtube.com/shorts/AAKk8CXZM40" target="_blank" class="btn-interagir">❤️ Curtir</a>
-                    <a href="https://www.youtube.com/shorts/AAKk8CXZM40" target="_blank" class="btn-interagir">💬 Comentar</a>
-                </div>
-            </div>
-
-            <div class="short-card">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/YIMbN4eYhqw" allowfullscreen></iframe>
-                </div>
-                <div class="video-title">Sua fruta do Sorteio se alcançarmos a meta!</div>
-                <div class="botoes-interacao">
-                    <a href="https://www.youtube.com/shorts/YIMbN4eYhqw" target="_blank" class="btn-interagir">❤️ Curtir</a>
-                    <a href="https://www.youtube.com/shorts/YIMbN4eYhqw" target="_blank" class="btn-interagir">💬 Comentar</a>
-                </div>
-            </div>
-
-            <div class="short-card">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/J95GXfkd79k" allowfullscreen></iframe>
-                </div>
-                <div class="video-title">SMOKE? ⚡ O poder da fumaça</div>
-                <div class="botoes-interacao">
-                    <a href="https://www.youtube.com/shorts/J95GXfkd79k" target="_blank" class="btn-interagir">❤️ Curtir</a>
-                    <a href="https://www.youtube.com/shorts/J95GXfkd79k" target="_blank" class="btn-interagir">💬 Comentar</a>
-                </div>
-            </div>
-
-        </div>
+    <!-- 1. DOAÇÃO DE DINHEIRO -->
+    <div class="section-card">
+        <h2>💰 Doação de Dinheiro</h2>
+        <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px;">
+            Quer ajudar a manter os projetos ativos e mandar um alerta na tela? Fortaleça via Pix!
+        </p>
+        <!-- Aqui você pode colocar o link do seu LivePix ou similar -->
+        <a href="https://livepix.gg/SEU_USUARIO" target="_blank" class="btn-donate">Apoiadores / Fazer um Pix</a>
     </div>
+
+    <form id="donationForm">
+        <!-- 2. MENSAGENS POSITIVAS OU NEGATIVAS -->
+        <div class="section-card">
+            <h2>💬 Mensagens Positivas ou Negativas</h2>
+            <label>Qual a vibe da sua mensagem?</label>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="vibe_mensagem" value="positiva" checked> 🟢 Positiva
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="vibe_mensagem" value="negativa"> 🔴 Negativa (Crítica)
+                </label>
+            </div>
+            <label for="texto_mensagem">Sua mensagem:</label>
+            <textarea id="texto_mensagem" rows="3" placeholder="Escreva aqui..."></textarea>
+        </div>
+
+        <!-- 3. DOAÇÃO DE MÚSICA & ÁUDIO -->
+        <div class="section-card">
+            <h2>🎵 Doação de Música ou Áudio</h2>
+            <label for="link_musica">Link da Música (YouTube/Spotify):</label>
+            <input type="text" id="link_musica" placeholder="https://...">
+            
+            <label>Ou mande um arquivo de áudio / gravação:</label>
+            <div class="audio-input-container" onclick="document.getElementById('audio_file').click()">
+                <span>📁 Clique para selecionar um áudio</span>
+                <input type="file" id="audio_file" accept="audio/*" style="display: none;">
+            </div>
+        </div>
+
+        <!-- 4. IDEIAS DE CONTEÚDO -->
+        <div class="section-card">
+            <h2>💡 Ideias de Conteúdo</h2>
+            <label for="ideia_conteudo">O que você quer ver nos próximos vídeos ou lives?</label>
+            <textarea id="ideia_conteudo" rows="3" placeholder="Mande sua sugestão de tema, jogo ou ferramenta..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Enviar Interação</button>
+    </form>
+</div>
+
+<script>
+    // Estrutura inicial para capturar o envio do formulário
+    document.getElementById('donationForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Formulário enviado! (Precisamos configurar para onde esses dados vão agora)');
+    });
+</script>
 
 </body>
 </html>
