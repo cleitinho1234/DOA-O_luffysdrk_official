@@ -29,16 +29,10 @@
             border-radius: 16px;
             padding: 30px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            position: relative;
         }
 
-        /* TELA DE LOGIN (Escondida por padrão) */
-        #loginScreen {
-            display: none;
-            text-align: center;
-        }
-
-        /* TELA PRINCIPAL (Escondida por padrão) */
-        #mainContent {
+        #loginScreen, #mainContent, #adminPanel {
             display: none;
         }
 
@@ -68,9 +62,6 @@
             font-size: 1.2rem;
             margin-bottom: 15px;
             color: #f1f5f9;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .btn-donate {
@@ -97,7 +88,7 @@
             color: #cbd5e1;
         }
 
-        input[type="text"], input[type="password"], textarea, select {
+        input[type="text"], textarea {
             width: 100%;
             padding: 10px;
             background-color: #1e293b;
@@ -106,10 +97,6 @@
             color: white;
             margin-bottom: 15px;
             outline: none;
-        }
-
-        input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
-            border-color: #38bdf8;
         }
 
         .radio-group {
@@ -151,10 +138,56 @@
             background-color: #0ea5e9;
         }
 
-        #welcomeMessage {
-            text-align: right;
+        .user-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 0.85rem;
-            color: #38bdf8;
+            color: #94a3b8;
+            margin-bottom: 20px;
+            background: #0f172a;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .admin-link {
+            background-color: #eab308;
+            color: #0f172a;
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            display: none;
+        }
+
+        .msg-box {
+            background: #1e293b;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 5px solid #38bdf8;
+        }
+        .msg-box.negativa { border-left-color: #ef4444; }
+        .msg-box.positiva { border-left-color: #22c55e; }
+        
+        .msg-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+        .msg-body p {
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+        .btn-clear {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
             margin-bottom: 15px;
         }
     </style>
@@ -162,6 +195,15 @@
 <body>
 
 <div class="container">
+
+    <!-- BARRA DE TOPO LOGADO -->
+    <div id="userBar" class="user-bar" style="display: none;">
+        <div>Logado como: <strong id="loggedName" style="color: #38bdf8;"></strong></div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <a href="#" id="adminBtn" class="admin-link" onclick="abrirPainel()">⚙️ Painel Dono</a>
+            <a href="#" onclick="fazerLogout()" style="color: #ef4444; text-decoration: none;">Sair</a>
+        </div>
+    </div>
 
     <!-- ================= TELA DE LOGIN ================= -->
     <div id="loginScreen">
@@ -178,7 +220,6 @@
 
     <!-- ================= CONTEÚDO PRINCIPAL (DOAÇÃO) ================= -->
     <div id="mainContent">
-        <div id="welcomeMessage"></div>
         <h1>Mande sua Energia & Conteúdo</h1>
         <p class="subtitle">Escolha como você quer interagir ou apoiar o canal abaixo!</p>
 
@@ -192,7 +233,7 @@
         </div>
 
         <form id="donationForm">
-            <!-- 2. MENSAGENS POSITIVAS OU NEGATIVAS -->
+            <!-- 2. MENSAGENS -->
             <div class="section-card">
                 <h2>💬 Mensagens Positivas ou Negativas</h2>
                 <label>Qual a vibe da sua mensagem?</label>
@@ -201,89 +242,177 @@
                         <input type="radio" name="vibe_mensagem" value="positiva" checked> 🟢 Positiva
                     </label>
                     <label class="radio-label">
-                        <input type="radio" name="vibe_mensagem" value="negativa"> 🔴 Negativa (Crítica)
+                        <input type="radio" name="vibe_mensagem" value="negativa"> 🔴 Negativa
                     </label>
                 </div>
                 <label for="texto_mensagem">Sua mensagem:</label>
-                <textarea id="texto_mensagem" rows="3" placeholder="Escreva aqui..."></textarea>
+                <textarea id="texto_mensagem" rows="2" placeholder="Escreva aqui..."></textarea>
             </div>
 
-            <!-- 3. DOAÇÃO DE MÚSICA & ÁUDIO -->
+            <!-- 3. MÚSICA & ÁUDIO -->
             <div class="section-card">
                 <h2>🎵 Doação de Música ou Áudio</h2>
                 <label for="link_musica">Link da Música (YouTube/Spotify):</label>
                 <input type="text" id="link_musica" placeholder="https://...">
                 
-                <label>Ou mande um arquivo de áudio / gravação:</label>
-                <div class="audio-input-container" onclick="document.getElementById('audio_file').click()">
-                    <span>📁 Clique para selecionar um áudio</span>
-                    <input type="file" id="audio_file" accept="audio/*" style="display: none;">
+                <label>Ou mande um arquivo de áudio:</label>
+                <div class="audio-input-container">
+                    <input type="file" id="audio_file" accept="audio/*">
                 </div>
             </div>
 
-            <!-- 4. IDEIAS DE CONTEÚDO -->
+            <!-- 4. IDEIAS -->
             <div class="section-card">
                 <h2>💡 Ideias de Conteúdo</h2>
                 <label for="ideia_conteudo">O que você quer ver nos próximos vídeos ou lives?</label>
-                <textarea id="ideia_conteudo" rows="3" placeholder="Mande sua sugestão de tema, jogo ou ferramenta..."></textarea>
+                <textarea id="ideia_conteudo" rows="2" placeholder="Mande sua sugestão..."></textarea>
             </div>
 
             <button type="submit" class="btn-submit">Enviar Interação</button>
         </form>
     </div>
+
+    <!-- ================= PAINEL DO DONO (ADMIN) ================= -->
+    <div id="adminPanel">
+        <h1>👑 Painel de Controle (luffysdrk)</h1>
+        <p class="subtitle">Veja abaixo todas as interações e doações enviadas pelos usuários</p>
+        
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-submit" onclick="voltarParaSite()" style="background-color: #64748b; color: white; margin-bottom: 15px; padding: 8px;">← Voltar para o Site</button>
+            <button class="btn-clear" onclick="limparTodasDoacoes()">🗑️ Limpar Tudo</button>
+        </div>
+
+        <div id="listaDoacoes"></div>
+    </div>
+
 </div>
 
 <script>
+    if (!localStorage.getItem('banco_doacoes')) {
+        localStorage.setItem('banco_doacoes', JSON.stringify([]));
+    }
+
     const loginScreen = document.getElementById('loginScreen');
     const mainContent = document.getElementById('mainContent');
-    const loginForm = document.getElementById('loginForm');
-    const usernameInput = document.getElementById('username');
-    const welcomeMessage = document.getElementById('welcomeMessage');
+    const adminPanel = document.getElementById('adminPanel');
+    const userBar = document.getElementById('userBar');
+    const loggedName = document.getElementById('loggedName');
+    const adminBtn = document.getElementById('adminBtn');
 
-    // 1. CHECAR SE JÁ EXISTE LOGIN SALVO AO CARREGAR A PÁGINA
     window.addEventListener('DOMContentLoaded', () => {
         const savedUser = localStorage.getItem('usuario_doacao');
-        
         if (savedUser) {
-            // Se já tem usuário salvo, mostra direto a tela de doações
             liberarSite(savedUser);
         } else {
-            // Se não tem, força a tela de login aparecer
             loginScreen.style.display = 'block';
         }
     });
 
-    // 2. DIRETRIZ AO SUBMETER O LOGIN
-    loginForm.addEventListener('submit', (e) => {
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
         e.preventDefault();
-        const username = usernameInput.value.trim();
-        
+        const username = document.getElementById('username').value.trim();
         if (username) {
-            // Salva para sempre no navegador do usuário
             localStorage.setItem('usuario_doacao', username);
             liberarSite(username);
         }
     });
 
-    // Função auxiliar para esconder o login e mostrar o painel
     function liberarSite(nomeUsuario) {
         loginScreen.style.display = 'none';
+        adminPanel.style.display = 'none';
         mainContent.style.display = 'block';
-        welcomeMessage.innerHTML = `Conectado como: <strong>${nomeUsuario}</strong> | <a href="#" onclick="fazerLogout()" style="color: #ef4444; text-decoration: none;">Sair</a>`;
+        userBar.style.display = 'flex';
+        loggedName.textContent = nomeUsuario;
+
+        // VALIDAÇÃO COM O SEU NOME CHAVE EXATO
+        if (nomeUsuario.trim().toLowerCase() === 'luffysdrk dono') {
+            adminBtn.style.display = 'block';
+        } else {
+            adminBtn.style.display = 'none';
+        }
     }
 
-    // Função caso ele queira deslogar ou mudar de nome
     function fazerLogout() {
         localStorage.removeItem('usuario_doacao');
         window.location.reload();
     }
 
-    // Envio do formulário de interações
     document.getElementById('donationForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const usuarioAtual = localStorage.getItem('usuario_doacao');
-        alert(`Boa, ${usuarioAtual}! Seus dados foram coletados no formulário. Pronto para o próximo passo.`);
+        
+        const usuario = localStorage.getItem('usuario_doacao');
+        const vibe = document.querySelector('input[name="vibe_mensagem"]:checked').value;
+        const mensagem = document.getElementById('texto_mensagem').value.trim();
+        const musica = document.getElementById('link_musica').value.trim();
+        const ideia = document.getElementById('ideia_conteudo').value.trim();
+        
+        const audioFile = document.getElementById('audio_file').files[0];
+        const audioName = audioFile ? audioFile.name : "Nenhum áudio enviado";
+
+        const novaDoacao = {
+            id: Date.now(),
+            usuario: usuario,
+            vibe: vibe,
+            mensagem: mensagem,
+            musica: musica,
+            audio: audioName,
+            ideia: ideia,
+            data: new Date().toLocaleTimeString('pt-BR')
+        };
+
+        const doacoesAtuais = JSON.parse(localStorage.getItem('banco_doacoes'));
+        doacoesAtuais.unshift(novaDoacao);
+        localStorage.setItem('banco_doacoes', JSON.stringify(doacoesAtuais));
+
+        alert('Sua doação/mensagem foi enviada com sucesso para o painel!');
+        this.reset();
     });
+
+    function abrirPainel() {
+        mainContent.style.display = 'none';
+        adminPanel.style.display = 'block';
+        renderizarDoacoes();
+    }
+
+    function voltarParaSite() {
+        adminPanel.style.display = 'none';
+        mainContent.style.display = 'block';
+    }
+
+    function renderizarDoacoes() {
+        const lista = document.getElementById('listaDoacoes');
+        const doacoes = JSON.parse(localStorage.getItem('banco_doacoes'));
+        
+        if (doacoes.length === 0) {
+            lista.innerHTML = '<p style="text-align:center; color:#94a3b8;">Nenhuma doação recebida ainda.</p>';
+            return;
+        }
+
+        lista.innerHTML = '';
+        doacoes.forEach(doc => {
+            lista.innerHTML += `
+                <div class="msg-box ${doc.vibe}">
+                    <div class="msg-header">
+                        <span>👤 Usuário: <strong>${doc.usuario}</strong></span>
+                        <span>⏱️ ${doc.data}</span>
+                    </div>
+                    <div class="msg-body">
+                        ${doc.mensagem ? `<p><strong>Mensagem (${doc.vibe}):</strong> ${doc.mensagem}</p>` : ''}
+                        ${doc.musica ? `<p><strong>🎵 Música:</strong> <a href="${doc.musica}" target="_blank" style="color:#38bdf8;">${doc.musica}</a></p>` : ''}
+                        ${doc.audio !== "Nenhum áudio enviado" ? `<p><strong>🎙️ Arquivo de Áudio:</strong> ${doc.audio}</p>` : ''}
+                        ${doc.ideia ? `<p><strong>💡 Ideia de Conteúdo:</strong> ${doc.ideia}</p>` : ''}
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function limparTodasDoacoes() {
+        if (confirm('Tem certeza que deseja apagar todas as mensagens e doações do painel?')) {
+            localStorage.setItem('banco_doacoes', JSON.stringify([]));
+            renderizarDoacoes();
+        }
+    }
 </script>
 
 </body>
