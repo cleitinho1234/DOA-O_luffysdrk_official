@@ -210,14 +210,14 @@
             border: 1px solid #f43f5e;
         }
 
-        /* ================= TELA DO ALERTA DO LUFFY ================= */
+        /* ================= ESTILIZAÇÃO DOS ALERTAS DA TELA ================= */
         .luffy-alert-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(15, 23, 42, 0.85); /* Fundo escurecido */
+            background-color: rgba(15, 23, 42, 0.85);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -237,9 +237,18 @@
             width: 280px;
             height: 280px;
             border-radius: 50%;
-            box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
             transform: scale(0.7);
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Sombra verde para o positivo */
+        #luffyAlertPositivo .luffy-img {
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
+        }
+
+        /* Sombra vermelha para o negativo */
+        #luffyAlertNegativo .luffy-img {
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
         }
 
         .luffy-alert-overlay.show .luffy-img {
@@ -250,10 +259,18 @@
             margin-top: 20px;
             font-size: 2rem;
             font-weight: bold;
-            color: #22c55e;
-            text-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
             text-align: center;
             animation: pulseText 1.5s infinite alternate;
+        }
+
+        .text-positivo {
+            color: #22c55e;
+            text-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+        }
+
+        .text-negativo {
+            color: #ef4444;
+            text-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
         }
 
         @keyframes pulseText {
@@ -264,9 +281,14 @@
 </head>
 <body>
 
-<div id="luffyAlert" class="luffy-alert-overlay">
+<div id="luffyAlertPositivo" class="luffy-alert-overlay">
     <img src="luffy.png" alt="Luffy Positivo" class="luffy-img">
-    <div class="luffy-text">MENSAGEM POSITIVA! 🟢</div>
+    <div class="luffy-text text-positivo">MENSAGEM POSITIVA! 🟢</div>
+</div>
+
+<div id="luffyAlertNegativo" class="luffy-alert-overlay">
+    <img src="luffy_negativo.png" alt="Luffy Negativo" class="luffy-img">
+    <div class="luffy-text text-negativo">MENSAGEM NEGATIVA! 🔴</div>
 </div>
 
 <div class="container">
@@ -368,7 +390,9 @@
     const adminBtn = document.getElementById('adminBtn');
     const submitBtn = document.getElementById('submitBtn');
     const cooldownTimer = document.getElementById('cooldownTimer');
-    const luffyAlert = document.getElementById('luffyAlert');
+    
+    const luffyAlertPositivo = document.getElementById('luffyAlertPositivo');
+    const luffyAlertNegativo = document.getElementById('luffyAlertNegativo');
 
     let cooldownInterval;
 
@@ -382,22 +406,30 @@
         }
     });
 
-    // DISPARAR ALERTA ASSIM QUE SELECIONAR A OPÇÃO "POSITIVA"
+    // SISTEMA DE ESCUTA DOS CLIQUES DE SELEÇÃO (RADIOS)
     document.querySelectorAll('input[name="vibe_mensagem"]').forEach(radio => {
         radio.addEventListener('change', function() {
             if (this.value === 'positiva') {
-                mostrarAlertaLuffy();
+                mostrarAlerta('positiva');
+            } else if (this.value === 'negativa') {
+                mostrarAlerta('negativa');
             }
         });
     });
 
-    function mostrarAlertaLuffy() {
-        luffyAlert.classList.add('show');
-        
-        // Mantém na tela por 4 segundos e depois some tudo junto suavemente
-        setTimeout(() => {
-            luffyAlert.classList.remove('show');
-        }, 4000);
+    // FUNÇÃO QUE EXECUTA A ANIMAÇÃO E O SUMIÇO SIMULTÂNEO
+    function mostrarAlerta(tipo) {
+        if (tipo === 'positiva') {
+            luffyAlertPositivo.classList.add('show');
+            setTimeout(() => {
+                luffyAlertPositivo.classList.remove('show');
+            }, 4000);
+        } else if (tipo === 'negativa') {
+            luffyAlertNegativo.classList.add('show');
+            setTimeout(() => {
+                luffyAlertNegativo.classList.remove('show');
+            }, 4000);
+        }
     }
 
     document.getElementById('loginForm').addEventListener('submit', (e) => {
@@ -448,7 +480,7 @@
         }
     }
 
-    function ativarBotaoCooldown(tempoMs) {
+    function activarBotaoCooldown(tempoMs) {
         submitBtn.disabled = true;
         cooldownTimer.style.display = 'block';
 
@@ -466,7 +498,7 @@
                 const minutos = Math.floor(restante / 60000);
                 const segundos = Math.floor((restante % 60000) / 1000);
                 
-                const minStr = minutos < 10 ? '0' + minutos : minutos;
+                const minStr = minutos < 10 ? '0' + minutos : minutes;
                 const segStr = segundos < 10 ? '0' + segundos : segundos;
                 
                 cooldownTimer.textContent = `⏳ Aguarde ${minStr}:${segStr} para enviar outra interação.`;
@@ -481,10 +513,8 @@
         const usuario = localStorage.getItem('usuario_doacao');
         const vibe = document.querySelector('input[name="vibe_mensagem"]:checked').value;
 
-        // Se o usuário enviar o formulário e a vibe for positiva, exibe o alerta também no envio
-        if (vibe === 'positiva') {
-            mostrarAlertaLuffy();
-        }
+        // Disparar o alerta visual correspondente também na hora do envio
+        mostrarAlerta(vibe);
         
         if (usuario.trim().toLowerCase() !== 'luffysdrk dono') {
             submitBtn.disabled = true;
