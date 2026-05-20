@@ -3,31 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Canal do YouTube</title>
+    <title>LUFFYSDRK - Shorts Oficiais</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background: #f9f9f9; }
-        .container { max-width: 800px; margin: 50px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        iframe { border: none; border-radius: 8px; }
-        .btn-youtube { display: inline-block; background: #ff0000; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            text-align: center; 
+            background: #0f0f0f; /* Fundo escuro oficial do YouTube */
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        .container { 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            padding: 10px; 
+        }
+        h1 { font-size: 2.3rem; margin-bottom: 5px; color: #ff0000; font-weight: 800; }
+        p { color: #aaaaaa; margin-bottom: 40px; font-size: 1.1rem; }
+        
+        /* Layout em Grade para os Shorts Verticais */
+        .grid-shorts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        /* Card com proporção 9:16 (Vertical) */
+        .short-card {
+            background: #1f1f1f;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            transition: transform 0.2s;
+            padding: 10px;
+        }
+        .short-card:hover {
+            transform: scale(1.03);
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 177.77%; /* Proporção 9:16 exata para Shorts */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; border: none;
+        }
+        .video-title {
+            font-size: 1rem;
+            font-weight: bold;
+            margin: 12px 5px 5px 5px;
+            text-align: left;
+            color: #f1f1f1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Bem-vindo ao meu site!</h1>
-        <p>Confira o meu conteúdo mais recente do YouTube abaixo:</p>
-
-        <!-- Script oficial do YouTube para botão de inscrição -->
-        <script src="https://apis.google.com/js/platform.js"></script>
-        <div class="g-ytsubscribe" data-channelid="COLOQUE_O_ID_DO_SEU_CANAL_AQUI" data-layout="full" data-count="default"></div>
+        <h1>LUFFYSDRK</h1>
+        <p>Assista aos meus Shorts de Blox Fruits diretamente por aqui!</p>
         
-        <br><br>
+        <div class="grid-shorts">
+            
+            <div class="short-card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/WVrAsGbSoOE" allowfullscreen></iframe>
+                </div>
+                <div class="video-title">SUA PROXIMA FRUTA NO GIRO SERÁ !!</div>
+            </div>
 
-        <!-- Player do seu vídeo (Substitua o código final pelo do seu vídeo) -->
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/CODIGO_DO_SEU_VIDEO" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="short-card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/AAKk8CXZM40" allowfullscreen></iframe>
+                </div>
+                <div class="video-title">QUAL SERÁ SUA FRUTA? #bloxfurit</div>
+            </div>
 
-        <br>
-        <a href="https://youtube.com/seu_canal" target="_blank" class="btn-youtube">Ir para o YouTube para Curtir e Comentar</a>
+            <div class="short-card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/YIMbN4eYhqw" allowfullscreen></iframe>
+                </div>
+                <div class="video-title">Sua fruta do Sorteio se alcançarmos a meta!</div>
+            </div>
+
+            <div class="short-card">
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/J95GXfkd79k" allowfullscreen></iframe>
+                </div>
+                <div class="video-title">SMOKE? ⚡ O poder da fumaça</div>
+            </div>
+
+        </div>
     </div>
 
 </body>
