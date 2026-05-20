@@ -31,6 +31,17 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
+        /* TELA DE LOGIN (Escondida por padrão) */
+        #loginScreen {
+            display: none;
+            text-align: center;
+        }
+
+        /* TELA PRINCIPAL (Escondida por padrão) */
+        #mainContent {
+            display: none;
+        }
+
         h1 {
             text-align: center;
             margin-bottom: 10px;
@@ -86,7 +97,7 @@
             color: #cbd5e1;
         }
 
-        input[type="text"], textarea, select {
+        input[type="text"], input[type="password"], textarea, select {
             width: 100%;
             padding: 10px;
             background-color: #1e293b;
@@ -97,7 +108,7 @@
             outline: none;
         }
 
-        input[type="text"]:focus, textarea:focus, select:focus {
+        input[type="text"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
             border-color: #38bdf8;
         }
 
@@ -139,70 +150,139 @@
         .btn-submit:hover {
             background-color: #0ea5e9;
         }
+
+        #welcomeMessage {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #38bdf8;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Mande sua Energia & Conteúdo</h1>
-    <p class="subtitle">Escolha como você quer interagir ou apoiar o canal abaixo!</p>
 
-    <!-- 1. DOAÇÃO DE DINHEIRO -->
-    <div class="section-card">
-        <h2>💰 Doação de Dinheiro</h2>
-        <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px;">
-            Quer ajudar a manter os projetos ativos e mandar um alerta na tela? Fortaleça via Pix!
-        </p>
-        <!-- Aqui você pode colocar o link do seu LivePix ou similar -->
-        <a href="https://livepix.gg/SEU_USUARIO" target="_blank" class="btn-donate">Apoiadores / Fazer um Pix</a>
+    <!-- ================= TELA DE LOGIN ================= -->
+    <div id="loginScreen">
+        <h1>Identifique-se</h1>
+        <p class="subtitle">Faça login para poder enviar suas mensagens e doações.</p>
+        
+        <form id="loginForm">
+            <label for="username">Seu Nome / Usuário:</label>
+            <input type="text" id="username" placeholder="Digite seu nome ou apelido..." required>
+            
+            <button type="submit" class="btn-submit">Entrar no Site</button>
+        </form>
     </div>
 
-    <form id="donationForm">
-        <!-- 2. MENSAGENS POSITIVAS OU NEGATIVAS -->
+    <!-- ================= CONTEÚDO PRINCIPAL (DOAÇÃO) ================= -->
+    <div id="mainContent">
+        <div id="welcomeMessage"></div>
+        <h1>Mande sua Energia & Conteúdo</h1>
+        <p class="subtitle">Escolha como você quer interagir ou apoiar o canal abaixo!</p>
+
+        <!-- 1. DOAÇÃO DE DINHEIRO -->
         <div class="section-card">
-            <h2>💬 Mensagens Positivas ou Negativas</h2>
-            <label>Qual a vibe da sua mensagem?</label>
-            <div class="radio-group">
-                <label class="radio-label">
-                    <input type="radio" name="vibe_mensagem" value="positiva" checked> 🟢 Positiva
-                </label>
-                <label class="radio-label">
-                    <input type="radio" name="vibe_mensagem" value="negativa"> 🔴 Negativa (Crítica)
-                </label>
+            <h2>💰 Doação de Dinheiro</h2>
+            <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px;">
+                Quer ajudar a manter os projetos ativos e mandar um alerta na tela? Fortaleça via Pix!
+            </p>
+            <a href="https://livepix.gg/SEU_USUARIO" target="_blank" class="btn-donate">Apoiadores / Fazer um Pix</a>
+        </div>
+
+        <form id="donationForm">
+            <!-- 2. MENSAGENS POSITIVAS OU NEGATIVAS -->
+            <div class="section-card">
+                <h2>💬 Mensagens Positivas ou Negativas</h2>
+                <label>Qual a vibe da sua mensagem?</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="vibe_mensagem" value="positiva" checked> 🟢 Positiva
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="vibe_mensagem" value="negativa"> 🔴 Negativa (Crítica)
+                    </label>
+                </div>
+                <label for="texto_mensagem">Sua mensagem:</label>
+                <textarea id="texto_mensagem" rows="3" placeholder="Escreva aqui..."></textarea>
             </div>
-            <label for="texto_mensagem">Sua mensagem:</label>
-            <textarea id="texto_mensagem" rows="3" placeholder="Escreva aqui..."></textarea>
-        </div>
 
-        <!-- 3. DOAÇÃO DE MÚSICA & ÁUDIO -->
-        <div class="section-card">
-            <h2>🎵 Doação de Música ou Áudio</h2>
-            <label for="link_musica">Link da Música (YouTube/Spotify):</label>
-            <input type="text" id="link_musica" placeholder="https://...">
-            
-            <label>Ou mande um arquivo de áudio / gravação:</label>
-            <div class="audio-input-container" onclick="document.getElementById('audio_file').click()">
-                <span>📁 Clique para selecionar um áudio</span>
-                <input type="file" id="audio_file" accept="audio/*" style="display: none;">
+            <!-- 3. DOAÇÃO DE MÚSICA & ÁUDIO -->
+            <div class="section-card">
+                <h2>🎵 Doação de Música ou Áudio</h2>
+                <label for="link_musica">Link da Música (YouTube/Spotify):</label>
+                <input type="text" id="link_musica" placeholder="https://...">
+                
+                <label>Ou mande um arquivo de áudio / gravação:</label>
+                <div class="audio-input-container" onclick="document.getElementById('audio_file').click()">
+                    <span>📁 Clique para selecionar um áudio</span>
+                    <input type="file" id="audio_file" accept="audio/*" style="display: none;">
+                </div>
             </div>
-        </div>
 
-        <!-- 4. IDEIAS DE CONTEÚDO -->
-        <div class="section-card">
-            <h2>💡 Ideias de Conteúdo</h2>
-            <label for="ideia_conteudo">O que você quer ver nos próximos vídeos ou lives?</label>
-            <textarea id="ideia_conteudo" rows="3" placeholder="Mande sua sugestão de tema, jogo ou ferramenta..."></textarea>
-        </div>
+            <!-- 4. IDEIAS DE CONTEÚDO -->
+            <div class="section-card">
+                <h2>💡 Ideias de Conteúdo</h2>
+                <label for="ideia_conteudo">O que você quer ver nos próximos vídeos ou lives?</label>
+                <textarea id="ideia_conteudo" rows="3" placeholder="Mande sua sugestão de tema, jogo ou ferramenta..."></textarea>
+            </div>
 
-        <button type="submit" class="btn-submit">Enviar Interação</button>
-    </form>
+            <button type="submit" class="btn-submit">Enviar Interação</button>
+        </form>
+    </div>
 </div>
 
 <script>
-    // Estrutura inicial para capturar o envio do formulário
+    const loginScreen = document.getElementById('loginScreen');
+    const mainContent = document.getElementById('mainContent');
+    const loginForm = document.getElementById('loginForm');
+    const usernameInput = document.getElementById('username');
+    const welcomeMessage = document.getElementById('welcomeMessage');
+
+    // 1. CHECAR SE JÁ EXISTE LOGIN SALVO AO CARREGAR A PÁGINA
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedUser = localStorage.getItem('usuario_doacao');
+        
+        if (savedUser) {
+            // Se já tem usuário salvo, mostra direto a tela de doações
+            liberarSite(savedUser);
+        } else {
+            // Se não tem, força a tela de login aparecer
+            loginScreen.style.display = 'block';
+        }
+    });
+
+    // 2. DIRETRIZ AO SUBMETER O LOGIN
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const username = usernameInput.value.trim();
+        
+        if (username) {
+            // Salva para sempre no navegador do usuário
+            localStorage.setItem('usuario_doacao', username);
+            liberarSite(username);
+        }
+    });
+
+    // Função auxiliar para esconder o login e mostrar o painel
+    function liberarSite(nomeUsuario) {
+        loginScreen.style.display = 'none';
+        mainContent.style.display = 'block';
+        welcomeMessage.innerHTML = `Conectado como: <strong>${nomeUsuario}</strong> | <a href="#" onclick="fazerLogout()" style="color: #ef4444; text-decoration: none;">Sair</a>`;
+    }
+
+    // Função caso ele queira deslogar ou mudar de nome
+    function fazerLogout() {
+        localStorage.removeItem('usuario_doacao');
+        window.location.reload();
+    }
+
+    // Envio do formulário de interações
     document.getElementById('donationForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        alert('Formulário enviado! (Precisamos configurar para onde esses dados vão agora)');
+        const usuarioAtual = localStorage.getItem('usuario_doacao');
+        alert(`Boa, ${usuarioAtual}! Seus dados foram coletados no formulário. Pronto para o próximo passo.`);
     });
 </script>
 
