@@ -8,7 +8,7 @@
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             text-align: center; 
-            background: #0f0f0f; /* Fundo escuro oficial do YouTube */
+            background: #0f0f0f; 
             color: #ffffff;
             margin: 0;
             padding: 20px;
@@ -21,7 +21,6 @@
         h1 { font-size: 2.3rem; margin-bottom: 5px; color: #ff0000; font-weight: 800; }
         p { color: #aaaaaa; margin-bottom: 40px; font-size: 1.1rem; }
         
-        /* Layout em Grade para os Shorts Verticais */
         .grid-shorts {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -29,21 +28,16 @@
             justify-content: center;
         }
         
-        /* Card com proporção 9:16 (Vertical) */
         .short-card {
             background: #1f1f1f;
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-            transition: transform 0.2s;
-            padding: 10px;
-        }
-        .short-card:hover {
-            transform: scale(1.03);
+            padding: 12px;
         }
         .video-container {
             position: relative;
-            padding-bottom: 177.77%; /* Proporção 9:16 exata para Shorts */
+            padding-bottom: 177.77%; 
             height: 0;
             overflow: hidden;
             border-radius: 12px;
@@ -55,12 +49,39 @@
         .video-title {
             font-size: 1rem;
             font-weight: bold;
-            margin: 12px 5px 5px 5px;
+            margin: 12px 5px;
             text-align: left;
             color: #f1f1f1;
             white-space: nowrap;
             overflow: hidden;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            text-overflow: ellipsis;
+        }
+
+        /* Botões de Interação Adaptados */
+        .botoes-interacao {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .btn-interagir {
+            flex: 1;
+            background: #333333;
+            color: #ffffff;
+            border: none;
+            padding: 8px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: background 0.2s;
+        }
+        .btn-interagir:hover {
+            background: #ff0000;
         }
     </style>
 </head>
@@ -68,7 +89,7 @@
 
     <div class="container">
         <h1>LUFFYSDRK</h1>
-        <p>Assista aos meus Shorts de Blox Fruits diretamente por aqui!</p>
+        <p>Assista e interaja com os meus Shorts de Blox Fruits!</p>
         
         <div class="grid-shorts">
             
@@ -77,6 +98,10 @@
                     <iframe src="https://www.youtube.com/embed/WVrAsGbSoOE" allowfullscreen></iframe>
                 </div>
                 <div class="video-title">SUA PROXIMA FRUTA NO GIRO SERÁ !!</div>
+                <div class="botoes-interacao">
+                    <a href="https://www.youtube.com/shorts/WVrAsGbSoOE" target="_blank" class="btn-interagir">❤️ Curtir</a>
+                    <a href="https://www.youtube.com/shorts/WVrAsGbSoOE" target="_blank" class="btn-interagir">💬 Comentar</a>
+                </div>
             </div>
 
             <div class="short-card">
@@ -84,6 +109,10 @@
                     <iframe src="https://www.youtube.com/embed/AAKk8CXZM40" allowfullscreen></iframe>
                 </div>
                 <div class="video-title">QUAL SERÁ SUA FRUTA? #bloxfurit</div>
+                <div class="botoes-interacao">
+                    <a href="https://www.youtube.com/shorts/AAKk8CXZM40" target="_blank" class="btn-interagir">❤️ Curtir</a>
+                    <a href="https://www.youtube.com/shorts/AAKk8CXZM40" target="_blank" class="btn-interagir">💬 Comentar</a>
+                </div>
             </div>
 
             <div class="short-card">
@@ -91,6 +120,10 @@
                     <iframe src="https://www.youtube.com/embed/YIMbN4eYhqw" allowfullscreen></iframe>
                 </div>
                 <div class="video-title">Sua fruta do Sorteio se alcançarmos a meta!</div>
+                <div class="botoes-interacao">
+                    <a href="https://www.youtube.com/shorts/YIMbN4eYhqw" target="_blank" class="btn-interagir">❤️ Curtir</a>
+                    <a href="https://www.youtube.com/shorts/YIMbN4eYhqw" target="_blank" class="btn-interagir">💬 Comentar</a>
+                </div>
             </div>
 
             <div class="short-card">
@@ -98,6 +131,10 @@
                     <iframe src="https://www.youtube.com/embed/J95GXfkd79k" allowfullscreen></iframe>
                 </div>
                 <div class="video-title">SMOKE? ⚡ O poder da fumaça</div>
+                <div class="botoes-interacao">
+                    <a href="https://www.youtube.com/shorts/J95GXfkd79k" target="_blank" class="btn-interagir">❤️ Curtir</a>
+                    <a href="https://www.youtube.com/shorts/J95GXfkd79k" target="_blank" class="btn-interagir">💬 Comentar</a>
+                </div>
             </div>
 
         </div>
